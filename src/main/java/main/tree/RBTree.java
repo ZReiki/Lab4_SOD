@@ -3,7 +3,7 @@ package main.tree;
 import java.util.Comparator;
 import java.util.Objects;
 
-public class RBTree<T extends Comparable<T>> {
+public class RBTree<T extends Comparable<T>> implements Tree<T> {
     private NodeRB<T> root;
     private final NodeRB<T> tNull;
 
@@ -33,7 +33,7 @@ public class RBTree<T extends Comparable<T>> {
         root = tNull;
     }
 
-
+    @Override
     public boolean insert(T key) {
         NodeRB<T> newNode = new NodeRB<>(key);
         newNode.left = tNull;
@@ -77,10 +77,12 @@ public class RBTree<T extends Comparable<T>> {
         return true;
     }
 
-    public void delete(T key) {
-        deleteNodeHelper(this.root, key);
+    @Override
+    public void remove(T key) {
+        removeNodeHelper(this.root, key);
     }
 
+    @Override
     public boolean contains(T key) {
         NodeRB<T> current = root;
         while (current != tNull) {
@@ -149,7 +151,7 @@ public class RBTree<T extends Comparable<T>> {
         root.color = Color.BLACK;
     }
 
-    private void deleteNodeHelper(NodeRB<T> node, T key) {
+    private void removeNodeHelper(NodeRB<T> node, T key) {
         NodeRB<T> z = tNull;
         NodeRB<T> x, y;
 
@@ -194,11 +196,11 @@ public class RBTree<T extends Comparable<T>> {
         }
 
         if (yOriginalColor == Color.BLACK) {
-            fixDelete(x);
+            fixRemove(x);
         }
     }
 
-    private void fixDelete(NodeRB<T> x) {
+    private void fixRemove(NodeRB<T> x) {
         NodeRB<T> s;
         while (x != root && x.color == Color.BLACK) {
             if (x == x.parent.left) {
@@ -340,7 +342,8 @@ public class RBTree<T extends Comparable<T>> {
         return Objects.compare(key1, key2, Comparator.naturalOrder());
     }
 
-    public void printTree() {
+    @Override
+    public void print() {
         printHelper(this.root, "", true);
     }
 

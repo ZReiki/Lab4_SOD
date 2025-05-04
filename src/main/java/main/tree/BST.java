@@ -2,13 +2,14 @@ package main.tree;
 
 import java.io.PrintStream;
 
-public class BST <T extends Comparable<T>> {
+public class BST <T extends Comparable<T>> implements Tree<String> {
     private Node<String> root = null;
 
     public boolean isEmpty() {
         return root == null;
     }
 
+    @Override
     public boolean insert(String value) {
         if(isEmpty()){
             root = new Node<>(value);
@@ -18,9 +19,9 @@ public class BST <T extends Comparable<T>> {
     }
     private boolean insert(String value, Node<String> root) {
         if(value.length() == root.getKey().length()){
-            if(value.compareTo(root.getKey()) == 0){
+            if(value.compareToIgnoreCase(root.getKey()) == 0){
                 return false;
-            } else if(value.compareTo(root.getKey()) > 0){
+            } else if(value.compareToIgnoreCase(root.getKey()) > 0){
                 if(root.getLeft() == null){
                     root.setLeft(new Node<>(value));
                     return true;
@@ -52,6 +53,7 @@ public class BST <T extends Comparable<T>> {
         }
     }
 
+    @Override
     public boolean contains(String value) {
         return find(value) != null;
     }
@@ -66,7 +68,7 @@ public class BST <T extends Comparable<T>> {
             return root;
         }
         if(value.length() == root.getKey().length()){
-            if(value.compareTo(root.getKey()) > 0){
+            if(value.compareToIgnoreCase(root.getKey()) > 0){
                 return find(value, root.getLeft());
             } else {
                 return find(value, root.getRight());
@@ -78,6 +80,7 @@ public class BST <T extends Comparable<T>> {
         }
     }
 
+    @Override
     public void remove(String value) {
         remove(value, root);
     }
@@ -94,7 +97,7 @@ public class BST <T extends Comparable<T>> {
                 root.setRight(remove(root.getKey(), root.getRight()));
             }
         } else if(value.length() == root.getKey().length()){
-            if(value.compareTo(root.getKey()) > 0){
+            if(value.compareToIgnoreCase(root.getKey()) > 0){
                 root.setLeft(remove(value, root.getLeft()));
             } else {
                 root.setRight(remove(value, root.getRight()));
@@ -153,17 +156,18 @@ public class BST <T extends Comparable<T>> {
             sb.append("\n");
 
             String paddingForBoth = padding + "│   ";
+            String pointerForLeft = "├── ";
             String pointerForRight = "└── ";
-            String pointerForLeft = (node.getRight() != null) ? "├── " : "└── " ;
 
             traverse(sb, paddingForBoth, pointerForLeft, node.getLeft());
             traverse(sb, paddingForBoth, pointerForRight, node.getRight());
         }
     }
-    public void print(PrintStream os) {
+
+    @Override
+    public void print() {
         StringBuilder sb = new StringBuilder();
         traverse(sb, "", "", root);
-        os.println(sb);
+        System.out.println(sb);
     }
-
 }

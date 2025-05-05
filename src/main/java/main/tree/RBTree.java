@@ -339,7 +339,13 @@ public class RBTree<T extends Comparable<T>> implements Tree<T> {
     }
 
     private int compareKeys(T key1, T key2) {
-        return Objects.compare(key1, key2, Comparator.naturalOrder());
+        String s1 = (String) key1;
+        String s2 = (String) key2;
+
+        if(s1.length() != s2.length()){
+            return Integer.compare(s2.length(), s1.length());
+        }
+        return -s1.compareToIgnoreCase(s2);
     }
 
     @Override

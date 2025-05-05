@@ -62,7 +62,7 @@ public class BST <T extends Comparable<T>> implements Tree<String> {
         return find(value, root);
     }
     private Node<String> find(String value, Node<String> root) {
-        if(root == null || value.equals(root.getKey())){
+        if(root == null || value.equalsIgnoreCase(root.getKey())){
             return root;
         }
         if(value.length() == root.getKey().length()){
@@ -84,7 +84,7 @@ public class BST <T extends Comparable<T>> implements Tree<String> {
     }
     private Node<String> remove(String value, Node<String> root) {
         if(root == null) return root;
-        if(value.equals(root.getKey())){
+        if(value.equalsIgnoreCase(root.getKey())){
             if(root.isLeaf()){
                 root = null;
             } else if (root.getLeft() != null){

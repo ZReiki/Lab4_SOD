@@ -1,7 +1,5 @@
 package main.tree;
 
-import java.io.PrintStream;
-
 public class BST <T extends Comparable<T>> implements Tree<String> {
     private Node<String> root = null;
 
